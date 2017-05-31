@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="NanZhanDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="HR_Attendance">
+    <Key>
+      <PropertyRef Name="a_id" />
+    </Key>
+    <Property Name="a_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="e_id" Type="Int32" />
+    <Property Name="a_time" Type="DateTime" Precision="3" />
+    <Property Name="m_id" Type="Int32" />
+    <Property Name="a_attend" Type="Int32" />
+    <NavigationProperty Name="HR_Employee" Relationship="NanZhanDBModel.FK_HR_ATTEN_REFERENCE_HR_EMPLO" FromRole="HR_Attendance" ToRole="HR_Employee" />
+    <NavigationProperty Name="HR_MeettingSetting" Relationship="NanZhanDBModel.FK_HR_ATTEN_REFERENCE_HR_MEETT" FromRole="HR_Attendance" ToRole="HR_MeettingSetting" />
+  </EntityType>
+  <EntityType Name="HR_ClassRoom">
+    <Key>
+      <PropertyRef Name="room_no" />
+    </Key>
+    <Property Name="room_no" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="room_name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="room_area" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="room_floor" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="room_computer_num" Type="Int32" />
+    <Property Name="room_state" Type="Int32" />
+    <NavigationProperty Name="HR_NightDutyReport" Relationship="NanZhanDBModel.FK_HR_NIGHT_REFERENCE_HR_CLASS" FromRole="HR_ClassRoom" ToRole="HR_NightDutyReport" />
+  </EntityType>
+  <EntityType Name="HR_Employee">
+    <Key>
+      <PropertyRef Name="e_id" />
+    </Key>
+    <Property Name="e_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="e_loginid" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="e_pwd" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="e_mobile" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+    <Property Name="e_email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="e_state" Type="Int32" />
+    <Property Name="e_userType" Type="Int32" />
+    <NavigationProperty Name="HR_Attendance" Relationship="NanZhanDBModel.FK_HR_ATTEN_REFERENCE_HR_EMPLO" FromRole="HR_Employee" ToRole="HR_Attendance" />
+    <NavigationProperty Name="HR_HomeWork" Relationship="NanZhanDBModel.FK_HR_HOMEW_REFERENCE_HR_EMPLO" FromRole="HR_Employee" ToRole="HR_HomeWork" />
+    <NavigationProperty Name="HR_NightDutyReport" Relationship="NanZhanDBModel.FK_HR_NIGHT_REFERENCE_HR_EMPLO" FromRole="HR_Employee" ToRole="HR_NightDutyReport" />
+    <NavigationProperty Name="HR_RestReport" Relationship="NanZhanDBModel.FK_HR_RESTR_REFERENCE_HR_EMPLO" FromRole="HR_Employee" ToRole="HR_RestReport" />
+  </EntityType>
+  <EntityType Name="HR_HomeWork">
+    <Key>
+      <PropertyRef Name="hw_id" />
+    </Key>
+    <Property Name="hw_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="hw_e_id" Type="Int32" />
+    <Property Name="hw_class_no" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="hw_check_starttime" Type="DateTime" Precision="3" />
+    <Property Name="hw_check_endtime" Type="DateTime" Precision="3" />
+    <Property Name="hw_remark" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="hw_state" Type="Int32" />
+    <NavigationProperty Name="HR_Employee" Relationship="NanZhanDBModel.FK_HR_HOMEW_REFERENCE_HR_EMPLO" FromRole="HR_HomeWork" ToRole="HR_Employee" />
+    <NavigationProperty Name="HR_Resource" Relationship="NanZhanDBModel.FK_HR_RESOU_REFERENCE_HR_HOMEW" FromRole="HR_HomeWork" ToRole="HR_Resource" />
+  </EntityType>
+  <EntityType Name="HR_NightDutyReport">
+    <Key>
+      <PropertyRef Name="ndr_n_id" />
+    </Key>
+    <Property Name="ndr_n_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ndr_e_id" Type="Int32" />
+    <Property Name="room_no" Type="Int32" />
+    <Property Name="ndr_class_no" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="ndr_attend_num" Type="Int32" />
+    <Property Name="ndr_discipline" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ndr_work_details" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ndr_play_mobile" Type="Int32" />
+    <Property Name="ndr_play_game" Type="Int32" />
+    <Property Name="ndr_sleep" Type="Int32" />
+    <Property Name="ndr_other_situation" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ndr_record_time" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="HR_ClassRoom" Relationship="NanZhanDBModel.FK_HR_NIGHT_REFERENCE_HR_CLASS" FromRole="HR_NightDutyReport" ToRole="HR_ClassRoom" />
+    <NavigationProperty Name="HR_Employee" Relationship="NanZhanDBModel.FK_HR_NIGHT_REFERENCE_HR_EMPLO" FromRole="HR_NightDutyReport" ToRole="HR_Employee" />
+  </EntityType>
+  <EntityType Name="HR_Resource">
+    <Key>
+      <PropertyRef Name="res_id" />
+    </Key>
+    <Property Name="res_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="hw_id" Type="Int32" />
+    <Property Name="res_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="HR_HomeWork" Relationship="NanZhanDBModel.FK_HR_RESOU_REFERENCE_HR_HOMEW" FromRole="HR_Resource" ToRole="HR_HomeWork" />
+  </EntityType>
+  <EntityType Name="HR_RestReport">
+    <Key>
+      <PropertyRef Name="rr_id" />
+    </Key>
+    <Property Name="rr_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="rr_e_id" Type="Int32" />
+    <Property Name="rest_starttime" Type="DateTime" Precision="3" />
+    <Property Name="rest_endtime" Type="DateTime" Precision="3" />
+    <Property Name="rest_state" Type="Int32" />
+    <NavigationProperty Name="HR_Employee" Relationship="NanZhanDBModel.FK_HR_RESTR_REFERENCE_HR_EMPLO" FromRole="HR_RestReport" ToRole="HR_Employee" />
+  </EntityType>
+  <EntityContainer Name="NanZhanDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="HR_Attendance" EntityType="Self.HR_Attendance" />
+    <EntitySet Name="HR_ClassRoom" EntityType="Self.HR_ClassRoom" />
+    <EntitySet Name="HR_Employee" EntityType="Self.HR_Employee" />
+    <EntitySet Name="HR_HomeWork" EntityType="Self.HR_HomeWork" />
+    <EntitySet Name="HR_NightDutyReport" EntityType="Self.HR_NightDutyReport" />
+    <EntitySet Name="HR_Resource" EntityType="Self.HR_Resource" />
+    <EntitySet Name="HR_RestReport" EntityType="Self.HR_RestReport" />
+    <EntitySet Name="HR_MeettingSetting" EntityType="NanZhanDBModel.HR_MeettingSetting" />
+    <AssociationSet Name="FK_HR_ATTEN_REFERENCE_HR_EMPLO" Association="NanZhanDBModel.FK_HR_ATTEN_REFERENCE_HR_EMPLO">
+      <End Role="HR_Employee" EntitySet="HR_Employee" />
+      <End Role="HR_Attendance" EntitySet="HR_Attendance" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HR_ATTEN_REFERENCE_HR_MEETT" Association="NanZhanDBModel.FK_HR_ATTEN_REFERENCE_HR_MEETT">
+      <End Role="HR_MeettingSetting" EntitySet="HR_MeettingSetting" />
+      <End Role="HR_Attendance" EntitySet="HR_Attendance" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HR_NIGHT_REFERENCE_HR_CLASS" Association="NanZhanDBModel.FK_HR_NIGHT_REFERENCE_HR_CLASS">
+      <End Role="HR_ClassRoom" EntitySet="HR_ClassRoom" />
+      <End Role="HR_NightDutyReport" EntitySet="HR_NightDutyReport" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HR_HOMEW_REFERENCE_HR_EMPLO" Association="NanZhanDBModel.FK_HR_HOMEW_REFERENCE_HR_EMPLO">
+      <End Role="HR_Employee" EntitySet="HR_Employee" />
+      <End Role="HR_HomeWork" EntitySet="HR_HomeWork" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HR_NIGHT_REFERENCE_HR_EMPLO" Association="NanZhanDBModel.FK_HR_NIGHT_REFERENCE_HR_EMPLO">
+      <End Role="HR_Employee" EntitySet="HR_Employee" />
+      <End Role="HR_NightDutyReport" EntitySet="HR_NightDutyReport" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HR_RESTR_REFERENCE_HR_EMPLO" Association="NanZhanDBModel.FK_HR_RESTR_REFERENCE_HR_EMPLO">
+      <End Role="HR_Employee" EntitySet="HR_Employee" />
+      <End Role="HR_RestReport" EntitySet="HR_RestReport" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HR_RESOU_REFERENCE_HR_HOMEW" Association="NanZhanDBModel.FK_HR_RESOU_REFERENCE_HR_HOMEW">
+      <End Role="HR_HomeWork" EntitySet="HR_HomeWork" />
+      <End Role="HR_Resource" EntitySet="HR_Resource" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="HR_MeettingSetting">
+    <Key>
+      <PropertyRef Name="m_id" />
+    </Key>
+    <Property Name="m_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="m_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="m_isOpen" Type="Int32" />
+    <Property Name="m_master" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="HR_Attendance" Relationship="NanZhanDBModel.FK_HR_ATTEN_REFERENCE_HR_MEETT" FromRole="HR_MeettingSetting" ToRole="HR_Attendance" />
+    <Property Name="m_start_time" Type="DateTime" Precision="3" />
+    <Property Name="m_state" Type="Int32" />
+    <Property Name="m_address" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <Association Name="FK_HR_ATTEN_REFERENCE_HR_EMPLO">
+    <End Type="NanZhanDBModel.HR_Employee" Role="HR_Employee" Multiplicity="0..1" />
+    <End Type="NanZhanDBModel.HR_Attendance" Role="HR_Attendance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HR_Employee">
+        <PropertyRef Name="e_id" />
+      </Principal>
+      <Dependent Role="HR_Attendance">
+        <PropertyRef Name="e_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HR_ATTEN_REFERENCE_HR_MEETT">
+    <End Type="NanZhanDBModel.HR_MeettingSetting" Role="HR_MeettingSetting" Multiplicity="0..1" />
+    <End Type="NanZhanDBModel.HR_Attendance" Role="HR_Attendance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HR_MeettingSetting">
+        <PropertyRef Name="m_id" />
+      </Principal>
+      <Dependent Role="HR_Attendance">
+        <PropertyRef Name="m_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HR_NIGHT_REFERENCE_HR_CLASS">
+    <End Type="NanZhanDBModel.HR_ClassRoom" Role="HR_ClassRoom" Multiplicity="0..1" />
+    <End Type="NanZhanDBModel.HR_NightDutyReport" Role="HR_NightDutyReport" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HR_ClassRoom">
+        <PropertyRef Name="room_no" />
+      </Principal>
+      <Dependent Role="HR_NightDutyReport">
+        <PropertyRef Name="room_no" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HR_HOMEW_REFERENCE_HR_EMPLO">
+    <End Type="NanZhanDBModel.HR_Employee" Role="HR_Employee" Multiplicity="0..1" />
+    <End Type="NanZhanDBModel.HR_HomeWork" Role="HR_HomeWork" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HR_Employee">
+        <PropertyRef Name="e_id" />
+      </Principal>
+      <Dependent Role="HR_HomeWork">
+        <PropertyRef Name="hw_e_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HR_NIGHT_REFERENCE_HR_EMPLO">
+    <End Type="NanZhanDBModel.HR_Employee" Role="HR_Employee" Multiplicity="0..1" />
+    <End Type="NanZhanDBModel.HR_NightDutyReport" Role="HR_NightDutyReport" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HR_Employee">
+        <PropertyRef Name="e_id" />
+      </Principal>
+      <Dependent Role="HR_NightDutyReport">
+        <PropertyRef Name="ndr_e_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HR_RESTR_REFERENCE_HR_EMPLO">
+    <End Type="NanZhanDBModel.HR_Employee" Role="HR_Employee" Multiplicity="0..1" />
+    <End Type="NanZhanDBModel.HR_RestReport" Role="HR_RestReport" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HR_Employee">
+        <PropertyRef Name="e_id" />
+      </Principal>
+      <Dependent Role="HR_RestReport">
+        <PropertyRef Name="rr_e_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HR_RESOU_REFERENCE_HR_HOMEW">
+    <End Type="NanZhanDBModel.HR_HomeWork" Role="HR_HomeWork" Multiplicity="0..1" />
+    <End Type="NanZhanDBModel.HR_Resource" Role="HR_Resource" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HR_HomeWork">
+        <PropertyRef Name="hw_id" />
+      </Principal>
+      <Dependent Role="HR_Resource">
+        <PropertyRef Name="hw_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

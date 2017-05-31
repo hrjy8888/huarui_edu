@@ -1,0 +1,279 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>会议设定</title>
+    <link href="~/Content/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins/bootstrap_table/bootstrap-table.css" rel="stylesheet" />
+
+    <script src="~/Content/plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="~/Content/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/Content/plugins/bootstrap_table/bootstrap-table.js"></script>
+    <script src="~/js/dist/js/bootstrapValidator.min.js"></script>
+    <link href="~/js/dist/css/bootstrapValidator.min.css" rel="stylesheet" />
+    <script src="~/js/dist/js/language/zh_CN.js"></script>
+    <script src="~/Content/plugins/bootstrap_table/locale/bootstrap-table-zh-CN.js"></script>
+    <script src="~/Content/plugins/datepicker/bootstrap-datepicker.js"></script>
+    <script src="~/Content/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js"></script>
+    <link href="~/Content/plugins/datepicker/datepicker3.css" rel="stylesheet" />
+    <style type="text/css">
+        .box-header {
+            margin-top: 5px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        .div_list {
+            margin-top: 15px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        .alert {
+            margin-bottom: 5px;
+            margin-top: 5px;
+        }
+    </style>
+
+</head>
+
+<body style="margin-top:0px;">
+    <div class="box">
+        <div class="box-header">
+            <form class="form-inline" role="form">
+                <div class="form-group">
+                    <label for="m_name" class="form-label">会议名:</label>
+                    <input type="text" class="form-control" name="m_name" id="m_name" />
+                    <label for="m_start_time" class="form-label">会议时间:</label>
+                    <input type="text" class="form-control" name="m_start_time" id="m_start_time" />
+                    <button type="button" class="btn btn-primary" id="btn_search">
+                        <i class="glyphicon glyphicon-search"></i>
+                        <span>&nbsp;查询</span>
+                    </button>
+                </div>
+                <div class="form-group pull-right">
+                    <button type="button" class="btn btn-default" data-toggle="modal" id="btn_add">
+                        <span class="glyphicon glyphicon-plus"></span>新增会议
+                    </button>
+                    <button type="button" class="btn btn-default" id="btn_edit" data-toggle="modal">
+                        <span class="glyphicon glyphicon-edit"></span>修改会议
+                    </button>
+                    <button type="button" class="btn btn-default" id="btn_delete">
+                        <span class="glyphicon glyphicon-remove"></span>删除会议
+                    </button>
+
+                </div>
+            </form>
+        </div>
+        <div class="div_list">
+
+            <div id="myAlert_ok" class="alert alert-success" style="text-align:center; display:none;">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <strong>成功！</strong>
+            </div>
+
+            <div id="myAlert_fail" class="alert alert-danger" style="display:none;text-align:center;">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <strong>警告！</strong>
+            </div>
+
+            <table id="table_list" class="table  table-condensed table-hover"></table>
+        </div>
+
+
+
+
+
+        @*新增窗口*@
+        <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" id="btn_close" class="close" data-dissmiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">新增会议</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" role="form" id="addForm">
+                            <div class="form-group">
+                                <label for="m_name" class="col-sm-3 control-label">会议名称:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="m_name" name="m_name" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="m_start_time" class="col-sm-3 control-label">会议时间:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control datepicker" id="m_start_time" name="m_start_time"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="m_address" class="col-sm-3 control-label">会议地点:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="m_address" id="m_address" value="" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="m_master" class="col-sm-3 control-label">会议负责人:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="m_master" id="m_master" value="" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" id="btn_reset" class="btn btn-default">取消</button>
+                                <button type="button" id="btn_submit_add" class="btn btn-primary">新增会议</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+     
+
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+    $(function () {
+      
+        //加载数据
+        $("#table_list").bootstrapTable({
+            url: '/MeettingManage/Meeting/GetMeetingSetting',     //请求后台的URL（*）
+            method: 'post',           //请求方式（*）
+            contentType: "application/x-www-form-urlencoded",
+            pagination: true,          //是否显示分页（*）
+            sortable: false,           //是否启用排序
+            sortOrder: "asc",          //排序方式
+            pageNumber: 1,            //初始化加载第一页，默认第一页
+            pageSize: 10,            //每页的记录行数（*）
+           // queryParams: queryParams,
+            clickToSelect: true,        //是否启用点击选中行
+            singleSelect: true,
+            // height: 440,            //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+            uniqueId: "m_id",           //每一行的唯一标识，一般为主键列
+            columns: [
+                { field: '', checkbox: true, visible: true, valign: "middle" },
+                { field: 'm_id', title: '编号', align: "center", valign: "middle", width: "50px" },
+                { field: 'm_name', title: '会议名', align: "center", valign: "middle" },
+                { field: 'm_start_time', title: '会议开始时间', align: "center", valign: "middle" },
+                { field: 'm_master', title: '负责人', align: "center", valign: "middle" },
+                {
+                    field: 'm_isOpen', title: '是否开启', align: "center", valign: "middle", formatter: function (value, row, index) {
+                        return value == "1" ? "<span class=\"label label-success\">开启</span>" : "<span class=\"label label-danger\">关闭</span>";
+                    }
+                },
+                {
+                    field: 'm_state', title: "会议状态", align: "center", valign: "middle", formatter: function (value, row, index) {
+                        return value == "1" ? "<span class=\"label label-success\">有效</span>" : "<span class=\"label label-danger\">无效</span>";
+
+                    }
+                }
+
+            ]
+        });
+
+        //新增
+        $("#btn_add").click(function () {
+            $("#addModal").modal("show");
+        });
+        //关闭
+        $("#btn_close").click(function () {
+            $("#addModal").modal("hide");
+        });
+
+        //设置时间格式
+        $(".datepicker").datepicker({
+            language: "zh-CN",
+            autoclose: true,//选中之后自动隐藏日期选择框
+            clearBtn: true,//清除按钮
+            todayBtn: false,//今日按钮,
+            autoclose: true,
+            todayHighlight:true,
+            format: "yyyy/mm/dd"//日期格式，详见 
+        }).on('hide', function (e) {
+            $('#addForm').data('bootstrapValidator')
+                .updateStatus('m_start_time', 'NOT_VALIDATED', null)
+                .validateField('m_start_time');
+        });;
+
+        //添加验证
+        //新增验证
+        $("#addForm").bootstrapValidator({
+            message: "值无效",
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                m_name: {
+                    validators: {
+                        notEmpty: { message: "会议名称不能为空" }
+                    }
+                },
+                m_start_time: {
+                    validators: {
+                        date: {
+                            format: 'YYYY/MM/DD',
+                            message: '时间格式不对'
+                        },
+                        notEmpty: { message: "会议时间不能为空" }
+                    }
+                },
+                m_address: {
+                    validators: {
+                        notEmpty: {message:"会议地点不为空"}
+                    }
+
+                },
+                m_master: {
+                    validators: {
+                        notEmpty:{message:"会议负责人不能为空"}
+                    }
+                }
+
+            }
+
+        })
+        
+
+        //$('#m_start_time').click(function (e) {
+        //    // Revalidate the date when user change it  
+        //    $('#addForm').bootstrapValidator('revalidateField', 'm_start_time');
+        //});
+
+        $("#btn_submit_add").click(function () {
+
+            var result = $("#addForm").bootstrapValidator("validate");
+            if ($("#addForm").data('bootstrapValidator').isValid()) {
+            }
+        });
+
+        
+
+       
+
+      
+
+   
+
+
+       
+
+
+
+
+
+
+
+
+
+
+
+    });
+
+
+
+</script>
