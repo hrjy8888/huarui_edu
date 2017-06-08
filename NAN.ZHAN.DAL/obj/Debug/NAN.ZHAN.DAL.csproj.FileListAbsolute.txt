@@ -9,3 +9,14 @@ G:\project\project_code\NAN-ZHAN-CORE\NAN.ZHAN.DAL\bin\Debug\zh-Hans\EntityFrame
 G:\project\project_code\NAN-ZHAN-CORE\NAN.ZHAN.DAL\obj\Debug\NAN.ZHAN.DAL.csprojResolveAssemblyReference.cache
 G:\project\project_code\NAN-ZHAN-CORE\NAN.ZHAN.DAL\obj\Debug\NAN.ZHAN.DAL.dll
 G:\project\project_code\NAN-ZHAN-CORE\NAN.ZHAN.DAL\obj\Debug\NAN.ZHAN.DAL.pdb
+G:\project\huarui_eud\project_code\NAN-ZHAN-CORE\NAN.ZHAN.DAL\bin\Debug\NAN.ZHAN.DAL.dll.config
+G:\project\huarui_eud\project_code\NAN-ZHAN-CORE\NAN.ZHAN.DAL\bin\Debug\NAN.ZHAN.DAL.dll
+G:\project\huarui_eud\project_code\NAN-ZHAN-CORE\NAN.ZHAN.DAL\bin\Debug\NAN.ZHAN.DAL.pdb
+G:\project\huarui_eud\project_code\NAN-ZHAN-CORE\NAN.ZHAN.DAL\bin\Debug\EntityFramework.dll
+G:\project\huarui_eud\project_code\NAN-ZHAN-CORE\NAN.ZHAN.DAL\bin\Debug\EntityFramework.SqlServer.dll
+G:\project\huarui_eud\project_code\NAN-ZHAN-CORE\NAN.ZHAN.DAL\bin\Debug\EntityFramework.xml
+G:\project\huarui_eud\project_code\NAN-ZHAN-CORE\NAN.ZHAN.DAL\bin\Debug\EntityFramework.SqlServer.xml
+G:\project\huarui_eud\project_code\NAN-ZHAN-CORE\NAN.ZHAN.DAL\bin\Debug\zh-Hans\EntityFramework.resources.dll
+G:\project\huarui_eud\project_code\NAN-ZHAN-CORE\NAN.ZHAN.DAL\obj\Debug\NAN.ZHAN.DAL.csprojResolveAssemblyReference.cache
+G:\project\huarui_eud\project_code\NAN-ZHAN-CORE\NAN.ZHAN.DAL\obj\Debug\NAN.ZHAN.DAL.dll
+G:\project\huarui_eud\project_code\NAN-ZHAN-CORE\NAN.ZHAN.DAL\obj\Debug\NAN.ZHAN.DAL.pdb

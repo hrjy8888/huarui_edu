@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AttendanceServices.cs" />
     <Compile Include="HR_MeettingSetting.cs">
       <DependentUpon>NAN_ZHAN_MODEL.tt</DependentUpon>
     </Compile>
@@ -98,6 +99,9 @@
       <DependentUpon>NAN_ZHAN_MODEL.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="V_Attendance_Emp_Meetting.cs">
+      <DependentUpon>NAN_ZHAN_MODEL.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="NAN_ZHAN_MODEL.edmx">

@@ -97,10 +97,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="js\utils.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\AttendanceManage\AttendanceManageAreaRegistration.cs" />
+    <Compile Include="Areas\AttendanceManage\Controllers\AttendanceController.cs" />
     <Compile Include="Areas\MeettingManage\Controllers\MeetingController.cs" />
     <Compile Include="Areas\MeettingManage\MeettingManageAreaRegistration.cs" />
     <Compile Include="Areas\UserCenter\Controllers\UserCenterMainController.cs" />
@@ -119,6 +122,7 @@
     <Content Include="Areas\UserCenter\Views\UserCenterMain\Index.cshtml" />
     <Content Include="Areas\MeettingManage\Views\web.config" />
     <Content Include="Areas\MeettingManage\Views\Meeting\Index.cshtml" />
+    <Content Include="Areas\AttendanceManage\Views\web.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -128,6 +132,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\AttendanceManage\Models\" />
+    <Folder Include="Areas\AttendanceManage\Views\Attendance\" />
+    <Folder Include="Areas\AttendanceManage\Views\Shared\" />
     <Folder Include="Areas\MeettingManage\Models\" />
     <Folder Include="Areas\MeettingManage\Views\Shared\" />
     <Folder Include="Areas\UserCenter\Models\" />

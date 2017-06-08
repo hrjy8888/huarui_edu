@@ -19,7 +19,7 @@ namespace NAN.ZHAN.DAL
                 nz.Configuration.ProxyCreationEnabled = false;
                 //var list_emp = nz.HR_Employee.Where<HR_Employee>(predicate).OrderByDescending(s=>s.e_id).ToList<HR_Employee>();
                 //return list_emp;
-                return nz.Set<HR_Employee>().AsExpandable().Where(predicate).ToList<HR_Employee>();
+                return nz.Set<HR_Employee>().AsExpandable().Where(predicate).OrderByDescending(s=>s.e_id).ToList<HR_Employee>();
             }
         }
 

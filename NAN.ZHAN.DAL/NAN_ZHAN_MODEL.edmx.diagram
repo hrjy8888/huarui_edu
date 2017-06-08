@@ -20,6 +20,7 @@
         <AssociationConnector Association="NanZhanDBModel.FK_HR_NIGHT_REFERENCE_HR_EMPLO" />
         <AssociationConnector Association="NanZhanDBModel.FK_HR_RESTR_REFERENCE_HR_EMPLO" />
         <AssociationConnector Association="NanZhanDBModel.FK_HR_RESOU_REFERENCE_HR_HOMEW" />
+        <EntityTypeShape EntityType="NanZhanDBModel.V_Attendance_Emp_Meetting" Width="1.5" PointX="7.375" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

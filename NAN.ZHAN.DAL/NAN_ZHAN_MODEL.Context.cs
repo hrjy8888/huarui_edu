@@ -33,5 +33,6 @@ namespace NAN.ZHAN.DAL
         public virtual DbSet<HR_Resource> HR_Resource { get; set; }
         public virtual DbSet<HR_RestReport> HR_RestReport { get; set; }
         public virtual DbSet<HR_MeettingSetting> HR_MeettingSetting { get; set; }
+        public virtual DbSet<V_Attendance_Emp_Meetting> V_Attendance_Emp_Meetting { get; set; }
     }
 }

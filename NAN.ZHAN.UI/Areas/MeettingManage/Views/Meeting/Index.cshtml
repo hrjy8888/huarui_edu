@@ -16,6 +16,7 @@
     <script src="~/Content/plugins/datepicker/bootstrap-datepicker.js"></script>
     <script src="~/Content/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js"></script>
     <link href="~/Content/plugins/datepicker/datepicker3.css" rel="stylesheet" />
+    <script src="~/js/utils.js"></script>
     <style type="text/css">
         .box-header {
             margin-top: 5px;
@@ -43,25 +44,30 @@
             <form class="form-inline" role="form">
                 <div class="form-group">
                     <label for="m_name" class="form-label">会议名:</label>
-                    <input type="text" class="form-control" name="m_name" id="m_name" />
+                    <input type="text" class="form-control" name="search_m_name" id="search_m_name" />
                     <label for="m_start_time" class="form-label">会议时间:</label>
-                    <input type="text" class="form-control" name="m_start_time" id="m_start_time" />
+                    <input type="text" class="form-control datepicker" name="search_m_start_time" id="search_m_start_time" />
                     <button type="button" class="btn btn-primary" id="btn_search">
                         <i class="glyphicon glyphicon-search"></i>
                         <span>&nbsp;查询</span>
                     </button>
                 </div>
-                <div class="form-group pull-right">
-                    <button type="button" class="btn btn-default" data-toggle="modal" id="btn_add">
-                        <span class="glyphicon glyphicon-plus"></span>新增会议
-                    </button>
-                    <button type="button" class="btn btn-default" id="btn_edit" data-toggle="modal">
-                        <span class="glyphicon glyphicon-edit"></span>修改会议
-                    </button>
-                    <button type="button" class="btn btn-default" id="btn_delete">
-                        <span class="glyphicon glyphicon-remove"></span>删除会议
-                    </button>
-
+                <div style="clear:both;height:5px;"></div>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <button type="button" class="btn btn-default" data-toggle="modal" id="btn_add">
+                            <span class="glyphicon glyphicon-plus"></span>新增会议
+                        </button>
+                        <button type="button" class="btn btn-default" id="btn_edit" data-toggle="modal">
+                            <span class="glyphicon glyphicon-edit"></span>修改会议
+                        </button>
+                        <button type="button" class="btn btn-default" id="btn_set_open_close">
+                            <span class="glyphicon glyphicon-cog"></span>开启/关闭会议
+                        </button>
+                        <button type="button" class="btn btn-default" id="btn_set_state">
+                            <span class="glyphicon glyphicon-refresh"></span>设置状态
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>
@@ -80,16 +86,12 @@
             <table id="table_list" class="table  table-condensed table-hover"></table>
         </div>
 
-
-
-
-
         @*新增窗口*@
         <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" id="btn_close" class="close" data-dissmiss="modal" aria-hidden="true">&times;</button>
+                        <button type="button" id="btn_add_modal" class="close" data-dissmiss="modal" aria-hidden="true">&times;</button>
                         <h4 class="modal-title" id="myModalLabel">新增会议</h4>
                     </div>
                     <div class="modal-body">
@@ -120,8 +122,73 @@
                             </div>
 
                             <div class="modal-footer">
-                                <button type="button" id="btn_reset" class="btn btn-default">取消</button>
+                                <button type="button" id="btn_reset_add" class="btn btn-default">取消</button>
                                 <button type="button" id="btn_submit_add" class="btn btn-primary">新增会议</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        @*修改窗口*@
+        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" id="btn_edit_modal" class="close" data-dissmiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">修改会议</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" role="form" id="editForm">
+                            <input type="hidden" name="edit_m_id" id="edit_m_id" />
+                            <div class="form-group">
+                                <label for="m_name" class="col-sm-3 control-label">会议名称:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="edit_m_name" name="edit_m_name" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="m_start_time" class="col-sm-3 control-label">会议时间:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control datepicker" id="edit_m_start_time" name="edit_m_start_time" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="m_address" class="col-sm-3 control-label">会议地点:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="edit_m_address" id="edit_m_address" value="" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="m_master" class="col-sm-3 control-label">会议负责人:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="edit_m_master" id="edit_m_master" value="" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="m_isOpen" class="col-sm-3 control-label">会议开启状态:</label>
+                                <div class="col-sm-8">
+                                     <select class="form-control" id="edit_m_isOpen" name="edit_m_isOpen">
+                                         <option value="0">关闭</option>
+                                         <option value="1">开启</option>
+                                     </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit_m_state" class="col-sm-3 control-label">会议状态:</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" id="edit_m_state" name="edit_m_state">
+                                        <option value="0">无效</option>
+                                        <option value="1">有效</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                @*<button type="button" id="btn_reset_edit" class="btn btn-default">取消</button>*@
+                                <button type="button" id="btn_submit_edit" class="btn btn-primary">修改会议</button>
                             </div>
                         </form>
                     </div>
@@ -145,6 +212,7 @@
             contentType: "application/x-www-form-urlencoded",
             pagination: true,          //是否显示分页（*）
             sortable: false,           //是否启用排序
+            queryParams: queryParams,
             sortOrder: "asc",          //排序方式
             pageNumber: 1,            //初始化加载第一页，默认第一页
             pageSize: 10,            //每页的记录行数（*）
@@ -157,7 +225,13 @@
                 { field: '', checkbox: true, visible: true, valign: "middle" },
                 { field: 'm_id', title: '编号', align: "center", valign: "middle", width: "50px" },
                 { field: 'm_name', title: '会议名', align: "center", valign: "middle" },
-                { field: 'm_start_time', title: '会议开始时间', align: "center", valign: "middle" },
+                {
+                    field: 'm_start_time', title: '会议开始时间', align: "center", valign: "middle", formatter: function (value, row, index) {
+                       // alert(new Date().Formatter(value));
+                        //return formate_date(value);
+                        return new Date().Formatter(value);
+                    }
+                },
                 { field: 'm_master', title: '负责人', align: "center", valign: "middle" },
                 {
                     field: 'm_isOpen', title: '是否开启', align: "center", valign: "middle", formatter: function (value, row, index) {
@@ -169,18 +243,66 @@
                         return value == "1" ? "<span class=\"label label-success\">有效</span>" : "<span class=\"label label-danger\">无效</span>";
 
                     }
+                },
+                {
+                    field: '', title: "", align: "center", valign: "middle", formatter: function (value, row, index) {
+                        return "<button class='btn btn-sm btn-info'>查看详情</button>"
+                    }
                 }
+               
 
             ]
         });
+
+        //bootstrap-table查询方法
+        function queryParams(params) {
+            return {
+                pageSize: params.limit,
+                pageIndex: params.pageNumber,
+                name: params.sortName,
+                order: params.sortOrder,
+                m_name: $("#search_m_name").val(),
+                m_start_time: $("#search_m_start_time").val()
+            }
+        }
 
         //新增
         $("#btn_add").click(function () {
             $("#addModal").modal("show");
         });
+        //修改
+        $("#btn_edit").click(function () {
+            var select_data = $("#table_list").bootstrapTable("getSelections");
+            if (select_data.length > 0) {
+                $("#editModal").modal("show");
+                //获取数据
+                $("#edit_m_id").val(select_data[0].m_id);
+                $("#edit_m_name").val(select_data[0].m_name);
+                $("#edit_m_start_time").val(new Date().Formatter(select_data[0].m_start_time));
+                $("#edit_m_address").val(select_data[0].m_address);
+                $("#edit_m_isOpen").val(select_data[0].m_isOpen);
+                $("#edit_m_master").val(select_data[0].m_master);
+                $("#edit_m_state").val(select_data[0].m_state);
+            }
+            else {
+                $("#myAlert_fail").html("失败!请选择一行数据").fadeIn().fadeOut(2000);
+            }
+           
+        })
         //关闭
-        $("#btn_close").click(function () {
+        $("#btn_edit_modal").click(function () {
+            $("#editModal").modal("hide");
+        });
+        $("#btn_add_modal").click(function () {
             $("#addModal").modal("hide");
+        });
+
+        //取消
+        $("#btn_reset_edit").click(function () {
+            $("#editForm").data("bootstrapValidator").resetForm(true);
+        });
+        $("#btn_reset_add").click(function () {
+            $("#addForm").data("bootstrapValidator").resetForm(true);
         });
 
         //设置时间格式
@@ -193,10 +315,19 @@
             todayHighlight:true,
             format: "yyyy/mm/dd"//日期格式，详见 
         }).on('hide', function (e) {
-            $('#addForm').data('bootstrapValidator')
-                .updateStatus('m_start_time', 'NOT_VALIDATED', null)
-                .validateField('m_start_time');
-        });;
+            try {
+                $('#addForm').data('bootstrapValidator')
+               .updateStatus('m_start_time', 'NOT_VALIDATED', null)
+               .validateField('m_start_time');
+
+                $('#editForm').data('bootstrapValidator')
+               .updateStatus('edit_m_start_time', 'NOT_VALIDATED', null)
+               .validateField('edit_m_start_time');
+
+            } catch (e) {
+
+            }
+        });
 
         //添加验证
         //新增验证
@@ -237,18 +368,148 @@
             }
 
         })
+
+        $("#editForm").bootstrapValidator({
+            message: "值无效",
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                edit_m_name: {
+                    validators: {
+                        notEmpty: { message: "会议名称不能为空" }
+                    }
+                },
+                edit_m_start_time: {
+                    validators: {
+                        date: {
+                            format: 'YYYY/MM/DD',
+                            message: '时间格式不对'
+                        },
+                        notEmpty: { message: "会议时间不能为空" }
+                    }
+                },
+                edit_m_address: {
+                    validators: {
+                        notEmpty: { message: "会议地点不为空" }
+                    }
+
+                },
+                edit_m_master: {
+                    validators: {
+                        notEmpty: { message: "会议负责人不能为空" }
+                    }
+                }
+
+            }
+
+        })
         
-
-        //$('#m_start_time').click(function (e) {
-        //    // Revalidate the date when user change it  
-        //    $('#addForm').bootstrapValidator('revalidateField', 'm_start_time');
-        //});
-
         $("#btn_submit_add").click(function () {
-
             var result = $("#addForm").bootstrapValidator("validate");
             if ($("#addForm").data('bootstrapValidator').isValid()) {
+                //获取所有表单的数据
+                var json_data = $("#addForm").serializeArray();
+                $.post("/MeettingManage/Meeting/AddMeettingSetting", json_data, function (data) {
+                    $("#addModal").modal("hide");
+                    if (data.msg == "op_success") {
+                        $("#myAlert_ok").html("<strong>成功！新增数据</strong>").fadeIn().fadeOut(2000);
+                        $("#table_list").bootstrapTable("refresh", { url: "/MeettingManage/Meeting/GetMeetingSetting" });
+                    }
+                    else {
+                        $("#myAlert_fail").html("<strong>失败！新增数据</strong>").fadeIn().fadeOut(2000);
+                    }
+                });
             }
+            
+        });
+
+        //修改数据
+        $("#btn_submit_edit").click(function () {
+            var result = $("#editForm").bootstrapValidator("validate");
+            if ($("#editForm").data('bootstrapValidator').isValid()) {
+                //获取所有表单的数据
+                var json_data = $("#editForm").serializeArray();
+                json_data = JSON.parse(JSON.stringify(json_data).replace(/edit_/g, ""));
+                $.post("/MeettingManage/Meeting/EidtMeetingSetting", json_data, function (data) {
+                    $("#editModal").modal("hide");
+                    if (data.msg == "op_success") {
+                        $("#myAlert_ok").html("<strong>成功！修改数据</strong>").fadeIn().fadeOut(2000);
+                        $("#table_list").bootstrapTable("refresh", { url: "/MeettingManage/Meeting/GetMeetingSetting" });
+                    }
+                    else {
+                        $("#myAlert_fail").html("<strong>失败！修改数据</strong>").fadeIn().fadeOut(2000);
+                    }
+                });
+            }
+
+        });
+
+        //格式化时间
+        function formate_date(jsonDate)
+        {
+            try {
+                var date = new Date(parseInt(jsonDate.replace("/Date(", "").replace(")/", ""), 10));
+                var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+                var day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+                return date.getFullYear() + "-" + month + "-" + day;
+            } catch (ex) {
+                return "";
+            }
+        }
+
+        //设置会议开启状态
+        $("#btn_set_open_close").click(function () {
+            var select_data = $("#table_list").bootstrapTable("getSelections");
+            if (select_data.length > 0) {
+               
+                var flag = select_data[0].m_isOpen == "1" ? 0 : 1;
+                var flag_text = select_data[0].m_isOpen == "1" ? "关闭" : "开启";
+                select_data[0].m_isOpen=flag;
+                select_data[0].m_start_time = new Date().Formatter(select_data[0].m_start_time);
+              
+                $.post("/MeettingManage/Meeting/EidtMeetingSetting", select_data[0], function (data) {
+                    if (data.msg == "op_success") {
+                        $("#myAlert_ok").html("<strong>成功!【" + flag_text + "】会议</strong>").fadeIn().fadeOut(2000);
+                        $("#table_list").bootstrapTable("refresh", { url: "/MeettingManage/Meeting/GetMeetingSetting" });
+                    }
+                    else {
+                        $("#myAlert_fail").html("失败!").fadeIn().fadeOut(2000);
+                    }
+                })
+            } else {
+                $("#myAlert_fail").html("失败!请选择一行数据").fadeIn().fadeOut(2000);
+            }
+        });
+        //设置有效状态
+        $("#btn_set_state").click(function () {
+            var select_data = $("#table_list").bootstrapTable("getSelections");
+            if (select_data.length > 0) {
+                var flag = select_data[0].m_state == 1 ? 0 : 1;
+                var flag_text = select_data[0].m_state == 1 ? "无效" : "有效";
+                select_data[0].m_state = flag;
+                select_data[0].m_start_time = new Date().Formatter(select_data[0].m_start_time);
+
+                $.post("/MeettingManage/Meeting/EidtMeetingSetting", select_data[0], function (data) {
+                    if (data.msg == "op_success") {
+                        $("#myAlert_ok").html("<strong>成功!设置【" + flag_text + "】会议</strong>").fadeIn().fadeOut(2000);
+                        $("#table_list").bootstrapTable("refresh", { url: "/MeettingManage/Meeting/GetMeetingSetting" });
+                    }
+                    else {
+                        $("#myAlert_fail").html("失败!").fadeIn().fadeOut(2000);
+                    }
+                })
+
+            } else {
+                $("#myAlert_fail").html("失败!请选择一行数据").fadeIn().fadeOut(2000);
+            }
+        });
+
+        //查询
+        $("#btn_search").click(function () {
+            $("#table_list").bootstrapTable("refresh", { url: "/MeettingManage/Meeting/GetMeetingSetting" });
         });
 
         

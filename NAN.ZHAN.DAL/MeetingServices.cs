@@ -14,7 +14,7 @@ namespace NAN.ZHAN.DAL
             using (NanZhanDBEntities nz = new NanZhanDBEntities())
             {
                 nz.Configuration.ProxyCreationEnabled = false;
-                return nz.HR_MeettingSetting.Where<HR_MeettingSetting>(predicate).ToList<HR_MeettingSetting>();
+                return nz.HR_MeettingSetting.Where<HR_MeettingSetting>(predicate.Compile()).AsQueryable().OrderByDescending(s=>s.m_id).ToList<HR_MeettingSetting>();
             }
         }
 

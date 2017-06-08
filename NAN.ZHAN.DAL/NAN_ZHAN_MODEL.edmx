@@ -97,6 +97,27 @@
           <Property Name="rest_endtime" Type="datetime" />
           <Property Name="rest_state" Type="int" />
         </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“NanZhanDB.dbo.V_Attendance_Emp_Meetting”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="V_Attendance_Emp_Meetting">
+          <Key>
+            <PropertyRef Name="a_id" />
+          </Key>
+          <Property Name="a_id" Type="int" Nullable="false" />
+          <Property Name="e_id" Type="int" />
+          <Property Name="m_id" Type="int" />
+          <Property Name="e_loginid" Type="varchar" MaxLength="100" />
+          <Property Name="e_mobile" Type="varchar" MaxLength="11" />
+          <Property Name="e_email" Type="varchar" MaxLength="100" />
+          <Property Name="m_name" Type="varchar" MaxLength="100" />
+          <Property Name="m_start_time" Type="datetime" />
+          <Property Name="m_address" Type="varchar" MaxLength="100" />
+          <Property Name="m_isOpen" Type="int" />
+          <Property Name="m_master" Type="varchar" MaxLength="50" />
+          <Property Name="m_state" Type="int" />
+          <Property Name="a_time" Type="datetime" />
+          <Property Name="a_attend" Type="int" />
+        </EntityType>
         <Association Name="FK_HR_ATTEN_REFERENCE_HR_EMPLO">
           <End Role="HR_Employee" Type="Self.HR_Employee" Multiplicity="0..1" />
           <End Role="HR_Attendance" Type="Self.HR_Attendance" Multiplicity="*" />
@@ -190,6 +211,24 @@
           <EntitySet Name="HR_NightDutyReport" EntityType="Self.HR_NightDutyReport" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HR_Resource" EntityType="Self.HR_Resource" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HR_RestReport" EntityType="Self.HR_RestReport" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="V_Attendance_Emp_Meetting" EntityType="Self.V_Attendance_Emp_Meetting" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_Attendance_Emp_Meetting].[a_id] AS [a_id], 
+    [V_Attendance_Emp_Meetting].[e_id] AS [e_id], 
+    [V_Attendance_Emp_Meetting].[m_id] AS [m_id], 
+    [V_Attendance_Emp_Meetting].[e_loginid] AS [e_loginid], 
+    [V_Attendance_Emp_Meetting].[e_mobile] AS [e_mobile], 
+    [V_Attendance_Emp_Meetting].[e_email] AS [e_email], 
+    [V_Attendance_Emp_Meetting].[m_name] AS [m_name], 
+    [V_Attendance_Emp_Meetting].[m_start_time] AS [m_start_time], 
+    [V_Attendance_Emp_Meetting].[m_address] AS [m_address], 
+    [V_Attendance_Emp_Meetting].[m_isOpen] AS [m_isOpen], 
+    [V_Attendance_Emp_Meetting].[m_master] AS [m_master], 
+    [V_Attendance_Emp_Meetting].[m_state] AS [m_state], 
+    [V_Attendance_Emp_Meetting].[a_time] AS [a_time], 
+    [V_Attendance_Emp_Meetting].[a_attend] AS [a_attend]
+    FROM [dbo].[V_Attendance_Emp_Meetting] AS [V_Attendance_Emp_Meetting]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_HR_ATTEN_REFERENCE_HR_EMPLO" Association="Self.FK_HR_ATTEN_REFERENCE_HR_EMPLO">
             <End Role="HR_Employee" EntitySet="HR_Employee" />
             <End Role="HR_Attendance" EntitySet="HR_Attendance" />
@@ -353,6 +392,7 @@
             <End Role="HR_HomeWork" EntitySet="HR_HomeWork" />
             <End Role="HR_Resource" EntitySet="HR_Resource" />
           </AssociationSet>
+          <EntitySet Name="V_Attendance_Emp_Meetting" EntityType="NanZhanDBModel.V_Attendance_Emp_Meetting" />
         </EntityContainer>
         <EntityType Name="HR_MeettingSetting">
           <Key>
@@ -451,6 +491,25 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="V_Attendance_Emp_Meetting">
+          <Key>
+            <PropertyRef Name="a_id" />
+          </Key>
+          <Property Name="a_id" Type="Int32" Nullable="false" />
+          <Property Name="e_id" Type="Int32" />
+          <Property Name="m_id" Type="Int32" />
+          <Property Name="e_loginid" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="e_mobile" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="e_email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="m_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="m_start_time" Type="DateTime" Precision="3" />
+          <Property Name="m_address" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="m_isOpen" Type="Int32" />
+          <Property Name="m_master" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="m_state" Type="Int32" />
+          <Property Name="a_time" Type="DateTime" Precision="3" />
+          <Property Name="a_attend" Type="Int32" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -554,6 +613,26 @@
                 <ScalarProperty Name="m_isOpen" ColumnName="m_isOpen" />
                 <ScalarProperty Name="m_name" ColumnName="m_name" />
                 <ScalarProperty Name="m_id" ColumnName="m_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_Attendance_Emp_Meetting">
+            <EntityTypeMapping TypeName="NanZhanDBModel.V_Attendance_Emp_Meetting">
+              <MappingFragment StoreEntitySet="V_Attendance_Emp_Meetting">
+                <ScalarProperty Name="a_attend" ColumnName="a_attend" />
+                <ScalarProperty Name="a_time" ColumnName="a_time" />
+                <ScalarProperty Name="m_state" ColumnName="m_state" />
+                <ScalarProperty Name="m_master" ColumnName="m_master" />
+                <ScalarProperty Name="m_isOpen" ColumnName="m_isOpen" />
+                <ScalarProperty Name="m_address" ColumnName="m_address" />
+                <ScalarProperty Name="m_start_time" ColumnName="m_start_time" />
+                <ScalarProperty Name="m_name" ColumnName="m_name" />
+                <ScalarProperty Name="e_email" ColumnName="e_email" />
+                <ScalarProperty Name="e_mobile" ColumnName="e_mobile" />
+                <ScalarProperty Name="e_loginid" ColumnName="e_loginid" />
+                <ScalarProperty Name="m_id" ColumnName="m_id" />
+                <ScalarProperty Name="e_id" ColumnName="e_id" />
+                <ScalarProperty Name="a_id" ColumnName="a_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
